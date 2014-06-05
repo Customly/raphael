@@ -1196,6 +1196,14 @@ window.Raphael && window.Raphael.svg && function(R) {
         $(el, res.attrs);
         return res;
     };
+    R._engine.foreignObject = function (svg) {
+        var el = $("foreignObject");
+        svg.canvas && svg.canvas.appendChild(el);
+        var res = new Element(el, svg);
+        res.type = "foreignObject";
+        $(el, res.attrs);
+        return res;
+    };
     R._engine.ellipse = function (svg, x, y, rx, ry) {
         var el = $("ellipse");
         svg.canvas && svg.canvas.appendChild(el);

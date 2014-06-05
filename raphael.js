@@ -679,6 +679,10 @@
             g: function (el) {
                 var bbox = el._getBBox();
                 return rectPath(bbox.x, bbox.y, bbox.width, bbox.height);
+            },
+            foreignObject: function (el) {
+                var bbox = el._getBBox();
+                return rectPath(bbox.x, bbox.y, bbox.width, bbox.height);
             }
         },
         /*\
@@ -3702,6 +3706,18 @@
     \*/
     paperproto.g = function () {
         var out = R._engine.g(this);
+        this.__set__ && this.__set__.push(out);
+        return out;
+    };
+    /*\
+     * Paper.foreignObject
+     [ method ]
+     *
+     * Draws a foreign object (foreignObject) container element.
+     **
+    \*/
+    paperproto.foreignObject = function () {
+        var out = R._engine.foreignObject(this);
         this.__set__ && this.__set__.push(out);
         return out;
     };
@@ -6964,6 +6980,14 @@
                 return out;
             }
         });
+        $(el, res.attrs);
+        return res;
+    };
+    R._engine.foreignObject = function (svg) {
+        var el = $("foreignObject");
+        svg.canvas && svg.canvas.appendChild(el);
+        var res = new Element(el, svg);
+        res.type = "foreignObject";
         $(el, res.attrs);
         return res;
     };
