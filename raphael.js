@@ -6970,7 +6970,7 @@
         res.type = "g";
         res.canvas = res.node;
         //adding support for adding elements inside <g>
-        var elements = ['circle' ,'rect' ,'ellipse' ,'image' ,'text' ,'g'];
+        var elements = ['circle' ,'rect' ,'ellipse' ,'image' ,'text' ,'g', 'foreignObject'];
         elements.forEach(function(element){
             res[element] = function(){
                 var args = [res];
