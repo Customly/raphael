@@ -1216,6 +1216,34 @@ window.Raphael && window.Raphael.svg && function(R) {
         $(el, res.attrs);
         return res;
     };
+    R._engine.g = function (svg) {
+        var el = $("g");
+        svg.canvas && svg.canvas.appendChild(el);
+        var res = new Element(el, svg);
+        res.type = "g";
+        res.canvas = res.node;
+        //adding support for adding elements inside <g>
+        var elements = ['circle' ,'rect' ,'ellipse' ,'image' ,'text' ,'g', 'foreignObject'];
+        elements.forEach(function(element){
+            res[element] = function(){
+                var args = [res];
+                for(var i=0; i<arguments.length; i++)
+                    args.push(arguments[i]);
+                var out = R._engine[element].apply(this, args);
+                return out;
+            }
+        });
+        $(el, res.attrs);
+        return res;
+    };
+    R._engine.foreignObject = function (svg) {
+        var el = $("foreignObject");
+        svg.canvas && svg.canvas.appendChild(el);
+        var res = new Element(el, svg);
+        res.type = "foreignObject";
+        $(el, res.attrs);
+        return res;
+    };
     R._engine.ellipse = function (svg, x, y, rx, ry) {
         var el = $("ellipse");
         svg.canvas && svg.canvas.appendChild(el);
